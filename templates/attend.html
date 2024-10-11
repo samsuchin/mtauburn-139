@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6 text-center mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ event.name }}</h5>
+                    <form method="post" action="">{% csrf_token %}
+                        <input required name="name" type="text" class="form-control mb-3" placeholder="Your Name">
+                        <input required name="email-phone" type="text" class="form-control mb-3" placeholder="Email or Phone Number">
+                        <div class="form-check">
+                            <input required class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                I agree to receive marketing messaging from Twilio at the phone number provided above. Data rates may apply,
+                                reply STOP to opt out. 
+                            </label>
+                            <a href="https://mtauburn.vip/privacy/">Privacy Policy</a>
+                          </div>
+                        <button class="btn btn-tool w-100 mt-3">Attend</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

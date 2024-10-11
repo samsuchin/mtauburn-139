@@ -1,0 +1,30 @@
+<div class="modal fade" id="add-invite-modal">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Invite</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{% url 'add_invite' event.pk %}">{% csrf_token %}
+      <div class="modal-body">
+        <input required class="form-control mb-3" type="text" name="name" placeholder="Invite Name" required>
+        <div class="mb-3">
+          <input class="form-control" type="text" name="contact" placeholder="Email or Phone (e.g., 123-456-7890)" pattern="(\d{3}[-\s]?\d{3}[-\s]?\d{4})|(.+@.+.\.+)" title="Please enter a valid email or a 10-digit phone number (with optional dashes or spaces)." required>
+          <small class="">
+              Enter an email address or a 10-digit phone number. Phone numbers can be entered with dashes or spaces (e.g., 123-456-7890 or 123 456 7890).
+          </small>
+        </div>
+        <div class="mb-3">
+          <input value="Default" class="form-control" type="text" name="status" placeholder="Invite Status" required>
+          <small class="">
+            Optional. Assign a different status level to this attendee.
+        </small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>

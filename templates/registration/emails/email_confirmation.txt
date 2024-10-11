@@ -1,0 +1,6 @@
+Hello,
+
+Pleae activate your Mt. Auburn account here: {{link}}
+
+Thank you,
+Mt. Auburn

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3>Manage <span id="eventName">{{ event.name}}</span></h3>
+        <a class="btn btn-tool" href="{% url 'detect' event.uid %}"><i class="bi bi-qr-code-scan me-1"></i> Go To Event Scanner</a>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-3 col-12">
+            <form id="saveForm" method="post" action="{% url 'save_event' event.pk %}">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="">Event Name</label>
+                    <input id="nameInput" class="form-control" type="text" name="name" value="{{ event.name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="">Scanner Password</label>
+                    <input id="passwordInput" class="form-control" type="text" name="password" value="{{ event.password }}">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="">
+                <div class="mb-3">
+                    <label for="">Email Subject</label>
+                    <input id="email_subject" value="{{ event.email_subject }}" type="text" class="form-control">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <label for="">Invite Email</label>
+                    <small class="">Use {code}, {name}, and {event_name}</small>
+                </div>
+                <textarea class="form-control mb-1" name="email_template" id="email_template" cols="30" rows="5">{{ event.email_template }}</textarea>
+                {% if event.outreach_active %}
+                <a href="{% url 'stop_outreach' event.pk %}" event_pk="{{ event.pk }}" id="stop_outreach" class="btn btn-tool w-100">
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span>Stop Outreach</span>
+                </a>
+                {% else %}
+                <a onclick="return confirm('Are you sure?')" href="{% url 'start_outreach' event.pk %}" event_pk="{{ event.pk }}" id="send_invites" class="btn btn-tool w-100">Send Invites</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-3 col-12">
+            <div class="d-flex justify-content-between align-items-center">
+            </div>
+            <div class="text-center">
+                <h4><span id="invites-sent">{{ event.invites_sent }}</span> / <span id="total-invites">{{ event.total_invites }}</span></h4>
+                <h6>Invites to Send</h6>
+                <div class="progress mb-3" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar" style="width: {{ event.outreach_percent }}%">{{ event.outreach_percent }}%</div>
+                </div>
+                <h4><span id="invites-scanned">{{ event.scan_count }}</span> / <span id="total-invites">{{ event.total_invites }}</span></h4>
+                <h6>Invites Scanned</h6>
+                <div class="progress mb-3" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-success" style="width: {{ event.scanned_percent }}%">{{ event.scanned_percent }}%</div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Event List</h5>
+                <div class="mb-2">
+                    <button class="btn btn-tool" data-bs-toggle="modal" data-bs-target="#upload-invites-modal">Bulk Upload Invites</button>
+                    <button class="btn btn-tool" data-bs-toggle="modal" data-bs-target="#add-invite-modal">Add Single Invite</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+            <table id="eventTable" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email or Phone #</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Invite Sent</th>
+                        <th scope="col">Scanned At</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendee in attendees %}
+                    <tr class="{% if attendee.is_valid %}{% else %}error{% endif %}">
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ attendee.name }}</td>
+                        <td>
+                            {{ attendee.get_contact }}
+                            <!-- <input pk="{{attendee.pk}}" value="{{ attendee.get_contact }}" class="invite-email form-control" type="email" name="email" id=""> -->
+                        </td>
+                        <td>
+                            {{ attendee.status }}
+                            <!-- <input pk="{{attendee.pk}}" class="attendee_status form-control" type="text" name="status" value="{{ attendee.status }}" id=""> -->
+                        </td>
+                        <td>
+                            {% if attendee.is_valid %}
+                            {{ attendee.invite_sent }}
+                            {% else %}
+                            ERROR SENDING
+                            {% endif %}
+                        </td>
+                        <td>{{ attendee.scanned_at }}</td>
+                        <td>
+                            <div pk="{{attendee.pk}}" class="remove_invite">X</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="{% url 'update_attendee' %}" id="update_attendee_endpoint">
+<input type="hidden" value="{% url 'send_invites' event.pk %}" id="send_invites_endpoint">
+{% include 'includes/invite_modal.html' %}
+{% include 'includes/upload_modal.html' %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/manage_event.js' %}"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+<script>
+    let table = new DataTable('#eventTable', {
+        paging: false,
+
+    });
+</script>
+{% endblock %}

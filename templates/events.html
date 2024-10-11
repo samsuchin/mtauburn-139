@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-3">
+        <div class="d-flex justify-content-between">
+            <h3>My Events</h3>
+            <div class="dropdown">
+                <button class="btn btn-tool dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ request.user.email }}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                  <li><div class="dropdown-item" href="">Need Help? Text Sam at 443-895-0782</div></li>
+                </ul>
+              </div>
+        </div>
+        {% for event in my_events %}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ event.name }}</h5>
+                    <div>Owner: {{ event.owner.email }}</div>
+                    <div class="mb-3">List Size: {{ event.total_invites }}</div>
+                    <div><a class="w-100 btn btn-tool" href="{% url 'manage_event' event.pk %}">Manage Event</a></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

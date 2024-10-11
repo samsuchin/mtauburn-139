@@ -1,0 +1,8 @@
+You must present your ID and the QR code below at the door to enter. QR codes are associated with your name and cannot be transferred or re-used. Rain or shine.
+
+76 Mt. Auburn St.
+3 - 7 PM
+September 23rd
+Dress Code: All White
+
+QR Code Link: {{ display_link }}

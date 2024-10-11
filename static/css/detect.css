@@ -1,0 +1,29 @@
+#result{
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#result-name{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+#result-status{
+    font-size: 1.3rem;
+}
+#result-type{
+    font-size: 0.8rem;
+}
+
+
+#detect{
+    position: relative;
+}
+
+#video{
+    border-color: black;
+    border-width: 3px;
+    border-style: solid;
+}

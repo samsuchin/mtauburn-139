@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/detect.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mb-2">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex align-items-center justify-content-between mt-3">
+        <h2>{{ event.name }}</h2>
+        <div><span id="scan-count">{{ event.scan_count }}</span> / <span id="total-invites">{{ event.total_invites }}</span> Scanned</div>
+        <div>
+          <a class="btn btn-tool" onclick="navigator.clipboard.writeText(window.location.href);">Copy Link</a>
+          <a class="btn btn-tool" href="{% url 'manage_event' event.pk %}">Manage</a>
+        </div>
+      </div>
+  <div id="detect">
+    <div id="video"></div>
+    <div id="result">
+      <div id="result-name">Name</div>
+      <div id="result-status">Status</div>
+      <div id="result-type">Status</div>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+<input type="hidden" id="event_pk" value="{{ event.pk }}">
+<input type="hidden" id="endpoint" value="{% url 'get_status' %}">
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-12 col-lg-6 order-lg-1 order-0">
+      <h5>Scanned</h5>
+      <div id="scanned-info">
+      {% for attendee in scanned %}
+          <div id="scanned-{{ attendee.pk }}">{{attendee.name}} @ {{ attendee.scanned_at }}</div>
+      {% endfor %}
+    </div>
+    </div>
+    <div id="" class="col-12 col-lg-6 order-0 order-lg-0 order-1">
+      <h5>Not Scanned</h5>
+      {% for attendee in not_scanned %}
+          <div id="not-scanned-{{ attendee.pk }}">{{attendee.name}} @ {{ attendee.scanned_at }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="{% static 'js/detect.js' %}"></script>
+<script>
+  let attempts = 0;
+  var prompt = prompt("Enter the password to this event")
+  if(!prompt){
+    document.location.href = "/";
+  }
+  else{
+
+  fetch("{% url 'check_password' %}" + "?password=" + prompt + "&event_pk=" + "{{ event.pk }}", {
+    method: 'GET',
+  }).then(response => response.json())
+  .then(data => {
+    if(data.status == "valid"){
+      startScanning();
+    }else{
+      window.location.reload();
+      if(attemps > 3){
+        window.location = "/"
+      }
+      attempts += 1;
+    }
+  })
+}
+</script>
+{% endblock %}

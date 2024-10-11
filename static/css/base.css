@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+html{
+    background-color: black;
+    color: white;
+}
+body{
+    background-color: black;
+    color: white; 
+    font-family: "Roboto Slab", serif !important;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+  
+table{
+    color: white !important;
+}
+main{
+    background-color: black;
+    color: white;
+}
+
+body .form-control{
+    background-color: #131313;
+    color: white;
+    border: none;
+}
+body .form-control::placeholder{
+    background-color: #131313;
+    color: rgba(255, 255, 255, 0.462);
+    border: none;
+}
+
+body .form-control:focus{
+    background-color: #131313;
+    color: white;
+    border: none;
+}
+
+.remove_invite{
+    cursor: pointer;
+    color: red;
+}
+
+/* body .btn-primary{
+    background-color: black;
+    color: white;
+    border-radius: 0px;
+    border: 1px solid white;
+}
+body .btn-primary{
+    background-color: black;
+    color: white;
+    border-radius: 0px;
+    border: 1px solid white;
+} */
+
+.btn.btn-tool{
+    border: 1px solid white;
+    color: white;
+    background-color: black;
+    border-radius: 0;
+}
+
+.btn.btn-tool:hover{
+    border: 1px solid white;
+    color: black;
+    background-color: white;
+
+}
+
+body .card{
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+    border-radius: 0px;
+}
+
+body.progress{
+    border-radius: 0px !important;
+}
+input{
+    border-radius: 0px !important;
+}
+
+
+body .alert{
+    border-radius: 0;
+    border-color: none;
+}
+
+.dt-input{
+    background-color: #131313;
+    color: white;
+}
+
+tr.error{
+    color: red;
+}
+
+nav .navbar{
+    color: white !important;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.footer{
+    color: white;
+    font-size: 10px;
+    padding-right: 10px;
+}

@@ -1,0 +1,24 @@
+{% load static %}
+<div class="modal fade" id="upload-invites-modal">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark">
+        <div class="modal-header">
+          <h5 class="modal-title">Bulk Upload</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form enctype="multipart/form-data" method="POST" action="{% url 'upload_invites' event.pk %}">{% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">CSV file</label>
+            <input required class="form-control" type="file" accept=".csv" id="file" name="file">
+          </div>
+          <div>Name, Email or Phone Number, Status</div>
+          <img class="img-fluid" src="{% static 'images/example-csv.png' %}" alt="">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>

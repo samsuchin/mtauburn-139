@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+<style>
+    html, body{
+        background-color: black;
+    }
+    a{
+        color: white;
+        text-align: center;
+    }
+    .navbar a{
+        padding: 10px;
+        padding-top: 20px;
+    }
+</style>
+    <head>
+        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon2.png' %}" />
+    </head>
+    {% include 'includes/messages.html' %}
+    {% block content %}
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+<div style="height: 100vh;" class="position-relative">
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <img width="500" class="" src="{% static 'images/favicon2.png' %}" alt="">
+
+    </div>
+  </div>
+    {% endblock %}
